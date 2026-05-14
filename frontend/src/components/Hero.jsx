@@ -1,13 +1,13 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
     ArrowUpRight,
     Lightning,
     PlayCircle,
-    Calendar,
-    MapPin,
+    CaretDown,
 } from "@phosphor-icons/react";
 import BackgroundAura from "./BackgroundAura";
+import { heroChips } from "../data/events";
 
 export default function Hero() {
     const ref = useRef(null);
@@ -18,20 +18,29 @@ export default function Hero() {
     const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
     const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
 
+    // Rotating category chip
+    const [chipIdx, setChipIdx] = useState(0);
+    useEffect(() => {
+        const id = setInterval(
+            () => setChipIdx((i) => (i + 1) % heroChips.length),
+            2200,
+        );
+        return () => clearInterval(id);
+    }, []);
+
     return (
         <section
             ref={ref}
             data-testid="hero-section"
-            className="relative pt-36 pb-24 sm:pt-44 sm:pb-32 overflow-hidden min-h-[92vh] flex items-center"
+            className="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden min-h-[94vh] flex items-center"
         >
-            {/* Prismatic animated background */}
             <BackgroundAura />
 
             <motion.div
                 style={{ y, opacity }}
                 className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 w-full"
             >
-                <div className="mx-auto max-w-4xl text-center">
+                <div className="mx-auto max-w-5xl text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -64,11 +73,40 @@ export default function Hero() {
                         </span>
                     </h1>
 
+                    {/* Rotating category chip */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        className="mt-7 inline-flex items-center gap-2 text-sm sm:text-base text-[#475569]"
+                    >
+                        <span>From</span>
+                        <span className="relative inline-flex h-7 sm:h-8 overflow-hidden align-middle">
+                            <AnimatePresence mode="wait">
+                                <motion.span
+                                    key={chipIdx}
+                                    initial={{ y: "100%", opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    exit={{ y: "-100%", opacity: 0 }}
+                                    transition={{
+                                        duration: 0.5,
+                                        ease: [0.22, 1, 0.36, 1],
+                                    }}
+                                    className="font-display font-bold text-[#0B1221] tracking-tight whitespace-nowrap inline-flex items-center px-3 rounded-lg bg-white/80 backdrop-blur"
+                                    data-testid="hero-rotating-chip"
+                                >
+                                    {heroChips[chipIdx]}
+                                </motion.span>
+                            </AnimatePresence>
+                        </span>
+                        <span>to private galas — all in one place.</span>
+                    </motion.div>
+
                     <motion.p
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.5 }}
-                        className="mt-6 text-base sm:text-lg lg:text-xl text-[#475569] max-w-2xl mx-auto leading-relaxed"
+                        transition={{ duration: 0.6, delay: 0.55 }}
+                        className="mt-5 text-base sm:text-lg text-[#475569] max-w-2xl mx-auto leading-relaxed"
                         data-testid="hero-subheading"
                     >
                         Discover immersive premium events with futuristic
@@ -79,7 +117,7 @@ export default function Hero() {
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.65 }}
+                        transition={{ duration: 0.6, delay: 0.7 }}
                         className="mt-9 flex flex-wrap items-center justify-center gap-3"
                     >
                         <a
@@ -107,11 +145,10 @@ export default function Hero() {
                         </a>
                     </motion.div>
 
-                    {/* Floating mini stats row (glass cards arranged in a curved row) */}
                     <motion.div
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.85 }}
+                        transition={{ duration: 0.7, delay: 0.9 }}
                         className="mt-14 grid grid-cols-3 max-w-2xl mx-auto gap-3 sm:gap-4"
                         data-testid="hero-stats"
                     >
@@ -120,71 +157,31 @@ export default function Hero() {
                         <StatPill k="4.96" v="Rating" />
                     </motion.div>
                 </div>
-
-                {/* Floating "Next Up" glass card — top-right corner, away from content */}
-                <motion.div
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 1 }}
-                    className="hidden"
-                    data-testid="hero-floating-card"
-                >
-                    <div className="glass-strong rounded-2xl p-4 shadow-[0_20px_60px_-12px_rgba(91,140,255,0.35)]">
-                        <div className="flex items-center gap-3">
-                            <div className="size-11 rounded-xl bg-brand-gradient flex items-center justify-center shadow-md">
-                                <Calendar
-                                    weight="duotone"
-                                    className="text-white size-5"
-                                />
-                            </div>
-                            <div className="min-w-0 flex-1">
-                                <div className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#5B8CFF]">
-                                    Next Up
-                                </div>
-                                <div className="font-display font-bold text-sm text-[#0B1221] truncate">
-                                    Aurora Tech Summit
-                                </div>
-                                <div className="flex items-center gap-1.5 text-[11px] text-[#475569] mt-0.5">
-                                    <MapPin
-                                        weight="duotone"
-                                        className="size-3.5"
-                                    />
-                                    Lisbon · Mar 14
-                                </div>
-                            </div>
-                            <div className="size-2 rounded-full bg-[#00C2FF] shadow-[0_0_12px_#00C2FF] animate-pulse" />
-                        </div>
-                        <div className="mt-3 h-1 rounded-full bg-[#EEF4FF] overflow-hidden">
-                            <motion.div
-                                initial={{ width: 0 }}
-                                animate={{ width: "72%" }}
-                                transition={{
-                                    duration: 1.2,
-                                    delay: 1.4,
-                                    ease: "easeOut",
-                                }}
-                                className="h-full bg-brand-gradient"
-                            />
-                        </div>
-                        <div className="mt-1.5 text-[10px] text-[#475569]">
-                            72% sold · 348 seats left
-                        </div>
-                    </div>
-                </motion.div>
-
-                {/* Floating "Live now" pill — hidden to keep hero clean */}
-                <motion.div
-                    initial={{ opacity: 0, x: -16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7, delay: 1.1 }}
-                    className="hidden items-center gap-2 px-3 py-2 rounded-full glass-strong"
-                >
-                    <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#22c55e] animate-pulse" />
-                    <span className="text-xs font-semibold text-[#0B1221]">
-                        2,184 attending now
-                    </span>
-                </motion.div>
             </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.a
+                href="#categories"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.7 }}
+                transition={{ delay: 1.5 }}
+                className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-xs text-[#475569] hover:text-[#0B1221] transition"
+                data-testid="hero-scroll"
+            >
+                <span className="uppercase tracking-[0.25em] text-[10px] font-semibold">
+                    Scroll
+                </span>
+                <motion.div
+                    animate={{ y: [0, 6, 0] }}
+                    transition={{
+                        duration: 1.8,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                    }}
+                >
+                    <CaretDown weight="bold" className="size-4" />
+                </motion.div>
+            </motion.a>
         </section>
     );
 }
