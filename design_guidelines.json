@@ -1,0 +1,127 @@
+{
+  "project_metadata": {
+    "domain": "Event Management Platform",
+    "theme": "Light",
+    "archetype": "Archetype 4 (Swiss & High-Contrast) + Archetype 7 (Futuristic/Neon) hybrid",
+    "vibe": "Ultra-premium, high-performance futuristic SaaS. Apple-level smoothness meets Tesla/Linear UI."
+  },
+  "design_system": {
+    "typography": {
+      "rules": "BANNED LIST: Inter, Roboto, Open Sans. NEVER use these.",
+      "fonts": {
+        "headings": {
+          "family": "'Cabinet Grotesk', sans-serif",
+          "import": "@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,500,700,400,900&display=swap');",
+          "weight_strategy": "font-bold to font-black for impact.",
+          "letter_spacing": "tracking-tight to tracking-tighter"
+        },
+        "body": {
+          "family": "'Outfit', sans-serif",
+          "import": "@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');",
+          "weight_strategy": "font-normal, leading-relaxed"
+        },
+        "overline": {
+          "styling": "uppercase tracking-[0.2em] text-xs font-semibold text-[#5B8CFF]"
+        }
+      },
+      "hierarchy": {
+        "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tighter",
+        "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight",
+        "h3": "text-xl sm:text-2xl",
+        "body": "text-base sm:text-lg"
+      }
+    },
+    "colors": {
+      "background": {
+        "default": "#FFFFFF",
+        "subtle": "#F7F9FF",
+        "muted": "#EEF4FF"
+      },
+      "text": {
+        "primary": "#0B1221",
+        "secondary": "#475569",
+        "accent": "#5B8CFF"
+      },
+      "brand": {
+        "primary": "#5B8CFF",
+        "secondary": "#7B61FF",
+        "accent": "#00C2FF"
+      },
+      "surfaces": {
+        "glass_card": "bg-white/70 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_rgba(91,140,255,0.08)]",
+        "solid_card": "bg-white border border-[#EEF4FF] shadow-sm",
+        "dark_contrast_cta": "bg-[#0B1221] text-white hover:bg-black hover:text-white transition-colors"
+      }
+    },
+    "layout_and_spacing": {
+      "philosophy": "Generous Spacing (2-3x normal). Use p-8, p-12 in containers.",
+      "marketing_grid": "The 'Tetris' Grid. gap-8 to gap-12. Asymmetry. col-span-full for hero.",
+      "dashboard_grid": "The 'Control Room' Grid. grid-cols-1 md:grid-cols-3 lg:grid-cols-4. gap-6. Dense data, crisp edges.",
+      "alignment": "Optical alignment. Left-align dense text/forms. Center-align hero if balanced."
+    },
+    "surface_strategies": {
+      "navbar": "Glassmorphism: sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-white/20.",
+      "hero_overlay": "Gradient overlay over 3D background to ensure text contrast: bg-gradient-to-b from-white/90 via-white/50 to-transparent.",
+      "event_cards": "Glassmorphism 'Crystal' variant on hover. Tracing Beam (animated gradient border mask) for 'Premium/Featured' events."
+    }
+  },
+  "motion_and_interactions": {
+    "principles": "Apple-level smoothness. 60+ FPS. No jank. Tesla/Linear inspired.",
+    "hover_states": "Cards: -translate-y-1, scale-105 for images, subtle glow shadow increase. Text color explicitly set on hover.",
+    "entrance": "Staggered fade-up using Framer Motion (y: 20, opacity: 0 -> y: 0, opacity: 1, duration: 0.5).",
+    "3d_elements": "Use React Three Fiber (R3F) for floating geometry (low-poly futuristic cubes, rings, glass panels) in the hero and 3D Experience sections. Apply Drei's <Float>."
+  },
+  "components_strategy": {
+    "marketing": "Pure HTML/Tailwind for overlapping/asymmetry. Framer Motion for scroll/parallax.",
+    "dashboards": "Shadcn UI (Tables, Tabs, Forms). Override defaults: h-auto on tabs, generous padding.",
+    "forms": "Shadcn Input/Select. Floating labels or clean overlines."
+  },
+  "icons_and_assets": {
+    "library": "@phosphor-icons/react (Duotone weight for premium feel)",
+    "dependencies": "framer-motion gsap @react-three/fiber @react-three/drei @phosphor-icons/react lucide-react clsx tailwind-merge"
+  },
+  "testing": {
+    "requirements": "All interactive elements MUST include data-testid attributes (e.g., data-testid='hero-explore-button')."
+  },
+  "media_urls": {
+    "rules": "NEVER use placeholders. Use only these URLs.",
+    "images": {
+      "hero_3d_background": {
+        "url": "https://static.prod-images.emergentagent.com/jobs/447b4e7a-0286-4c34-823c-c2f52188bafb/images/a916fdb6f51abde024942c8c552819c5fafcdffcea0be3ae01ce7086ee5c435b.png",
+        "description": "Abstract 3D glass geometry, floating spheres and cubes, light mode with cyan/purple rim lights. Use as the Hero section background image."
+      },
+      "event_ticket_premium": {
+        "url": "https://static.prod-images.emergentagent.com/jobs/447b4e7a-0286-4c34-823c-c2f52188bafb/images/817d687d3ed08611a9812f5d1fcd6d0a77bb180a439c41a11839697e6d604798.png",
+        "description": "Futuristic VIP event ticket with holographic elements. Use in the 3D Experience Section or Dashboard tickets overview."
+      },
+      "past_events_gallery_1": {
+        "url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwxfHxjb25jZXJ0JTIwY3Jvd2QlMjBkYXl0aW1lfGVufDB8fHx8MTc3ODc0MzA5NXww&ixlib=rb-4.1.0&q=85",
+        "description": "Concert crowd daytime. Use in the past events masonry gallery."
+      },
+      "past_events_gallery_2": {
+        "url": "https://images.unsplash.com/photo-1683368727353-a9a72b38d567?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwyfHxjb25jZXJ0JTIwY3Jvd2QlMjBkYXl0aW1lfGVufDB8fHx8MTc3ODc0MzA5NXww&ixlib=rb-4.1.0&q=85",
+        "description": "Crowd hands in the air. Use in the past events masonry gallery."
+      },
+      "upcoming_event_1": {
+        "url": "https://images.unsplash.com/photo-1771911650360-31fdb3344c74?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjb3Jwb3JhdGUlMjBldmVudCUyMHNwYWNlfGVufDB8fHx8MTc3ODc0MzA5NXww&ixlib=rb-4.1.0&q=85",
+        "description": "Modern interior grand staircase. Use for a premium upcoming corporate event card."
+      },
+      "upcoming_event_2": {
+        "url": "https://images.unsplash.com/photo-1762176263996-a0713a49ee4d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBjb3Jwb3JhdGUlMjBldmVudCUyMHNwYWNlfGVufDB8fHx8MTc3ODc0MzA5NXww&ixlib=rb-4.1.0&q=85",
+        "description": "Modern conference room. Use for an upcoming tech summit event card."
+      }
+    }
+  },
+  "instructions_to_main_agent": [
+    "Prioritize optical clarity and Apple-level smoothness.",
+    "Setup Tailwind config carefully for the custom colors (#5B8CFF, #7B61FF, #00C2FF) and fonts.",
+    "Add font imports to index.css or index.html immediately.",
+    "Ensure all backgrounds are explicitly set. DO NOT use entirely transparent surfaces in floating cards.",
+    "Implement R3F (React Three Fiber) in the '3D Experience Section'. Use floating geometry (cubes, spheres, rings) with Drei's <Float> and <MeshTransmissionMaterial> for a glass look. Rim light them with cyan and blue.",
+    "For the Past Events masonry gallery, ensure hover states trigger a slight scale-up and subtle cyan glow via Box Shadow.",
+    "Upcoming event cards must have tilt (using Framer Motion or react-parallax-tilt), gradient borders, glow, countdown timer, and a register CTA.",
+    "Dashboards (User & Admin) should utilize a 'Bento' grid layout with generous gap-6 spacing and crisp borders.",
+    "Use standard .js and .jsx extensions for React files, NOT .tsx.",
+    "Ensure the hero has a mouse spotlight effect (radial gradient following cursor) and dynamic gradient lighting."
+  ]
+}
