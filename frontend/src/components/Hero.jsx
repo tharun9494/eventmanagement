@@ -15,7 +15,8 @@ export default function Hero() {
         target: ref,
         offset: ["start start", "end start"],
     });
-    const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+    const y = useTransform(scrollYProgress, [0, 1], [0, 160]);
+    const headingScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
     const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
 
     // Rotating category chip
@@ -40,7 +41,10 @@ export default function Hero() {
                 style={{ y, opacity }}
                 className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 w-full"
             >
-                <div className="mx-auto max-w-5xl text-center">
+                <motion.div
+                    style={{ scale: headingScale }}
+                    className="mx-auto max-w-5xl text-center"
+                >
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -157,7 +161,7 @@ export default function Hero() {
                         <StatPill k="2.4M" v="Attendees" highlight />
                         <StatPill k="4.96" v="Rating" />
                     </motion.div>
-                </div>
+                </motion.div>
             </motion.div>
 
             {/* Scroll indicator */}

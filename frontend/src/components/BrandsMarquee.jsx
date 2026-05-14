@@ -1,35 +1,109 @@
-import { motion } from "framer-motion";
-import { brandsRow } from "../data/events";
+import { Star } from "@phosphor-icons/react";
 
-export default function BrandsMarquee() {
+/**
+ * Premium 3-row marquee tape — opposite directions for energy.
+ * Replaces the old basic BrandsMarquee.
+ */
+const tapeWords = [
+    "Premium Events",
+    "Live Now",
+    "Cinematic UX",
+    "Smart Tickets",
+    "Real-time Analytics",
+    "Global Cities",
+    "Razorpay Native",
+    "Loved by Creators",
+    "Sub-second Checkout",
+    "Sold Out",
+];
+
+export default function MarqueeTape() {
     return (
         <section
-            data-testid="brands-marquee"
-            className="relative py-12 sm:py-16 border-y border-[#EEF4FF] bg-white"
+            data-testid="marquee-tape"
+            className="relative py-10 sm:py-14 overflow-hidden bg-[#0B1221] text-white"
         >
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 mb-6 text-center">
-                <p className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#475569]">
-                    Trusted by world-class teams
-                </p>
+            <div className="absolute inset-0 opacity-25">
+                <div
+                    className="size-full"
+                    style={{
+                        backgroundImage:
+                            "linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+                        backgroundSize: "12% 100%",
+                    }}
+                />
             </div>
-            <div className="relative overflow-hidden">
-                {/* Fade edges */}
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10" />
-                <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10" />
-                <motion.div
-                    className="flex items-center gap-16 marquee"
-                    style={{ width: "max-content" }}
-                >
-                    {[...brandsRow, ...brandsRow].map((b, i) => (
-                        <span
-                            key={`${b}-${i}`}
-                            className="font-display font-bold text-2xl sm:text-3xl tracking-tight text-[#0B1221]/30 hover:text-[#0B1221] transition-colors duration-500 whitespace-nowrap"
-                        >
-                            {b}
-                        </span>
-                    ))}
-                </motion.div>
-            </div>
+
+            {/* Row 1 — large, left */}
+            <Row direction="left" duration={32} large>
+                {tapeWords}
+            </Row>
+
+            {/* Divider line */}
+            <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+
+            {/* Row 2 — small, right */}
+            <Row direction="right" duration={42}>
+                {[
+                    "AURORA",
+                    "NEBULA",
+                    "VANTA",
+                    "ORBIT",
+                    "PRISM",
+                    "LUMEN",
+                    "HALO",
+                    "ZENITH",
+                    "PULSE",
+                    "STELLAR",
+                    "RADIANT",
+                    "VERTEX",
+                ]}
+            </Row>
         </section>
+    );
+}
+
+function Row({ children, direction = "left", duration = 30, large = false }) {
+    const items = [...children, ...children, ...children];
+    const animClass = direction === "left" ? "tape-left" : "tape-right";
+    return (
+        <div className="relative">
+            <div
+                className={`flex items-center gap-10 sm:gap-14 whitespace-nowrap ${animClass} will-change-transform`}
+                style={{ animationDuration: `${duration}s` }}
+            >
+                {items.map((it, i) => (
+                    <div
+                        key={i}
+                        className="flex items-center gap-10 sm:gap-14 shrink-0"
+                    >
+                        <span
+                            className={`font-display font-black tracking-tighter ${
+                                large
+                                    ? "text-4xl sm:text-6xl lg:text-7xl"
+                                    : "text-xl sm:text-2xl"
+                            } text-white/70 hover:text-white transition-colors`}
+                        >
+                            {it}
+                        </span>
+                        <Star
+                            weight="fill"
+                            className={`${
+                                large ? "size-7 sm:size-9" : "size-4 sm:size-5"
+                            } text-[#00C2FF] shrink-0`}
+                        />
+                    </div>
+                ))}
+            </div>
+            <style>{`
+                .tape-left { animation: tapeL linear infinite; }
+                .tape-right { animation: tapeR linear infinite; }
+                @keyframes tapeL { from { transform: translate3d(0,0,0); } to { transform: translate3d(-33.333%,0,0); } }
+                @keyframes tapeR { from { transform: translate3d(-33.333%,0,0); } to { transform: translate3d(0,0,0); } }
+                @media (prefers-reduced-motion: reduce) {
+                    .tape-left, .tape-right { animation-play-state: paused; }
+                }
+            `}</style>
+        </div>
     );
 }
