@@ -1,9 +1,14 @@
-import { Suspense, lazy, useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Sparkle, Rocket, ChartLineUp } from "@phosphor-icons/react";
+import {
+    Sparkle,
+    Rocket,
+    ChartLineUp,
+    QrCode,
+    Globe,
+    Lightning,
+} from "@phosphor-icons/react";
 import { stats } from "../data/events";
-
-const ThreeScene = lazy(() => import("./ThreeScene"));
 
 export default function ExperienceSection() {
     return (
@@ -12,11 +17,11 @@ export default function ExperienceSection() {
             data-testid="experience-section"
             className="relative py-24 sm:py-32 overflow-hidden"
         >
-            {/* Soft background */}
+            {/* Light prismatic flow background */}
             <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-[#F7F9FF] to-white" />
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#5B8CFF]/30 to-transparent" />
+            <FlowBackground />
 
-            <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
                 {/* Header */}
                 <div className="grid lg:grid-cols-12 gap-8 items-end mb-12 sm:mb-16">
                     <div className="lg:col-span-7">
@@ -24,7 +29,7 @@ export default function ExperienceSection() {
                             initial={{ opacity: 0, y: 12 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-80px" }}
-                            transition={{ duration: 0.6 }}
+                            transition={{ duration: 0.5 }}
                             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-xs font-semibold"
                         >
                             <Sparkle
@@ -32,107 +37,120 @@ export default function ExperienceSection() {
                                 className="size-3.5 text-[#7B61FF]"
                             />
                             <span className="uppercase tracking-[0.2em] text-[10px]">
-                                Immersive 3D Experience
+                                The Lumen Experience
                             </span>
                         </motion.div>
                         <motion.h2
                             initial={{ opacity: 0, y: 16 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-80px" }}
-                            transition={{ duration: 0.7, delay: 0.1 }}
+                            transition={{ duration: 0.6, delay: 0.1 }}
                             className="mt-4 font-display font-black tracking-tighter text-[#0B1221] text-4xl sm:text-5xl lg:text-6xl"
                         >
-                            Step inside the
-                            <span className="text-gradient"> future of events</span>
+                            Built for the
+                            <span className="text-gradient"> next era</span> of
+                            events.
                         </motion.h2>
                     </div>
                     <motion.p
                         initial={{ opacity: 0, y: 16 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-80px" }}
-                        transition={{ duration: 0.7, delay: 0.2 }}
+                        transition={{ duration: 0.6, delay: 0.15 }}
                         className="lg:col-span-5 text-[#475569] text-base sm:text-lg leading-relaxed"
                     >
-                        Cinematic depth, real-time lighting, and tactile motion —
-                        engineered to make every interaction feel premium and
-                        alive.
+                        Cinematic design, real-time engagement, and effortless
+                        operations — engineered to feel premium on every device.
                     </motion.p>
                 </div>
 
-                {/* Main 3D Bento */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    {/* Large 3D canvas */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 24 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-80px" }}
-                        transition={{ duration: 0.8 }}
-                        className="lg:col-span-8 relative aspect-[16/10] lg:aspect-auto lg:min-h-[520px] rounded-3xl glass-strong overflow-hidden"
-                    >
-                        <Suspense
-                            fallback={
-                                <div className="size-full bg-gradient-to-br from-[#EEF4FF] via-white to-[#F7F9FF] animate-pulse" />
-                            }
-                        >
-                            <ThreeScene />
-                        </Suspense>
-
-                        {/* Overlay UI */}
-                        <div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-6 sm:p-8">
-                            <div className="flex items-center justify-between">
-                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-xl text-xs font-semibold text-[#0B1221]">
-                                    <span className="size-1.5 rounded-full bg-[#00C2FF] animate-pulse" />
-                                    Live Render · 60 FPS
-                                </div>
-                                <div className="text-xs font-mono text-[#475569] hidden sm:block">
-                                    LUMEN · v2.4
-                                </div>
-                            </div>
-                            <div>
-                                <div className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#5B8CFF]">
-                                    Floating geometry
-                                </div>
-                                <div className="font-display font-bold text-2xl sm:text-3xl text-[#0B1221] tracking-tight">
-                                    Move your cursor.
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* corner highlights */}
-                        <div className="absolute inset-0 pointer-events-none rounded-3xl ring-1 ring-inset ring-white/40" />
-                    </motion.div>
-
-                    {/* Stats column */}
-                    <div className="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-6">
-                        {stats.map((s, i) => (
-                            <StatCard key={s.label} {...s} delay={0.1 * i} />
-                        ))}
-                    </div>
+                {/* Stats row — prominent */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+                    {stats.map((s, i) => (
+                        <StatCard key={s.label} {...s} delay={i * 0.06} />
+                    ))}
                 </div>
 
-                {/* Feature row */}
-                <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Feature bento grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <FeatureCard
                         icon={<Rocket weight="duotone" className="size-6" />}
                         title="GPU-accelerated motion"
-                        desc="Every interaction runs at 60+ FPS with transform-only animations and smart lazy loading."
+                        desc="Every interaction runs at 60+ FPS with transform-only animations, lazy loading, and code splitting."
+                        gradient="from-[#5B8CFF] to-[#7B61FF]"
                         delay={0}
                     />
                     <FeatureCard
-                        icon={<ChartLineUp weight="duotone" className="size-6" />}
+                        icon={
+                            <ChartLineUp
+                                weight="duotone"
+                                className="size-6"
+                            />
+                        }
                         title="Real-time analytics"
-                        desc="Track ticket velocity, geo distribution, and engagement — beautifully visualized."
-                        delay={0.1}
+                        desc="Track ticket velocity, geo distribution, and engagement — beautifully visualized for organizers."
+                        gradient="from-[#7B61FF] to-[#00C2FF]"
+                        delay={0.08}
+                    />
+                    <FeatureCard
+                        icon={<QrCode weight="duotone" className="size-6" />}
+                        title="Smart QR tickets"
+                        desc="Frictionless check-in. Each ticket carries an animated QR with anti-fraud rotation and offline scanning."
+                        gradient="from-[#00C2FF] to-[#5B8CFF]"
+                        delay={0.16}
+                    />
+                    <FeatureCard
+                        icon={<Globe weight="duotone" className="size-6" />}
+                        title="Global ready"
+                        desc="Multi-currency, multi-language, multi-timezone. Razorpay, Stripe, and Apple Pay supported."
+                        gradient="from-[#5B8CFF] to-[#00C2FF]"
+                        delay={0.24}
+                    />
+                    <FeatureCard
+                        icon={<Lightning weight="duotone" className="size-6" />}
+                        title="Lightning checkout"
+                        desc="Sub-second booking flow. One-tap re-purchase for returning attendees. No friction, no lost carts."
+                        gradient="from-[#7B61FF] to-[#5B8CFF]"
+                        delay={0.32}
                     />
                     <FeatureCard
                         icon={<Sparkle weight="duotone" className="size-6" />}
-                        title="Cinematic interactions"
+                        title="Cinematic by default"
                         desc="Glassmorphism, ambient light, tilt cards and reactive cursor — premium without the weight."
-                        delay={0.2}
+                        gradient="from-[#00C2FF] to-[#7B61FF]"
+                        delay={0.4}
                     />
                 </div>
             </div>
         </section>
+    );
+}
+
+/* Lightweight flowing background — softer than hero, sits behind features */
+function FlowBackground() {
+    return (
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+            <div
+                className="absolute -top-32 left-1/4 size-[40vw] rounded-full opacity-50 blur-3xl"
+                style={{
+                    background:
+                        "radial-gradient(circle, #5B8CFF 0%, transparent 65%)",
+                    animation: "flowA 30s ease-in-out infinite",
+                }}
+            />
+            <div
+                className="absolute -bottom-32 right-1/4 size-[45vw] rounded-full opacity-40 blur-3xl"
+                style={{
+                    background:
+                        "radial-gradient(circle, #00C2FF 0%, transparent 65%)",
+                    animation: "flowB 36s ease-in-out infinite",
+                }}
+            />
+            <style>{`
+                @keyframes flowA { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(-10%,8%,0)} }
+                @keyframes flowB { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(12%,-6%,0)} }
+            `}</style>
+        </div>
     );
 }
 
@@ -142,9 +160,9 @@ function StatCard({ label, value, delay = 0 }) {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6, delay }}
+            transition={{ duration: 0.55, delay }}
             data-testid={`stat-${label.toLowerCase().replace(/\s+/g, "-")}`}
-            className="relative gradient-border p-6 rounded-2xl hover:-translate-y-1 transition-transform duration-500"
+            className="group relative gradient-border p-6 rounded-2xl hover:-translate-y-1 transition-transform duration-500"
         >
             <div className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#5B8CFF]">
                 {label}
@@ -157,33 +175,47 @@ function StatCard({ label, value, delay = 0 }) {
     );
 }
 
-function FeatureCard({ icon, title, desc, delay = 0 }) {
+function FeatureCard({ icon, title, desc, gradient, delay = 0 }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6, delay }}
-            className="group relative p-6 rounded-2xl bg-white border border-[#EEF4FF] hover:border-[#5B8CFF]/40 hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_24px_60px_-20px_rgba(91,140,255,0.35)]"
+            transition={{ duration: 0.55, delay }}
+            className="group relative p-6 rounded-2xl bg-white/80 backdrop-blur-xl border border-[#EEF4FF] hover:border-transparent hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_24px_60px_-20px_rgba(91,140,255,0.35)]"
         >
-            <div className="size-12 rounded-xl bg-[#F7F9FF] flex items-center justify-center text-[#5B8CFF] group-hover:bg-brand-gradient group-hover:text-white transition-colors duration-500">
+            <div
+                className={`size-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white shadow-[0_8px_24px_-8px_rgba(91,140,255,0.6)]`}
+            >
                 {icon}
             </div>
-            <h3 className="mt-4 font-display font-bold text-lg text-[#0B1221]">
+            <h3 className="mt-4 font-display font-bold text-lg text-[#0B1221] tracking-tight">
                 {title}
             </h3>
             <p className="mt-1.5 text-sm text-[#475569] leading-relaxed">
                 {desc}
             </p>
+            <div className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                <div
+                    className={`absolute inset-0 rounded-2xl p-px bg-gradient-to-br ${gradient}`}
+                    style={{
+                        WebkitMask:
+                            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                        WebkitMaskComposite: "xor",
+                        maskComposite: "exclude",
+                    }}
+                />
+            </div>
         </motion.div>
     );
 }
 
-// Lightweight count-up
 function CountUp({ value }) {
     const [display, setDisplay] = useState(value);
+    const startedRef = useRef(false);
     useEffect(() => {
-        // For string values like "12k+", just animate the numeric portion
+        if (startedRef.current) return;
+        startedRef.current = true;
         const match = String(value).match(/^([\d.]+)([\D]*)$/);
         if (!match) {
             setDisplay(value);
@@ -191,14 +223,13 @@ function CountUp({ value }) {
         }
         const end = parseFloat(match[1]);
         const suffix = match[2] || "";
-        let start = 0;
-        const dur = 1200;
+        const dur = 1100;
         const t0 = performance.now();
         let raf;
         const tick = (now) => {
             const p = Math.min(1, (now - t0) / dur);
             const eased = 1 - Math.pow(1 - p, 3);
-            const v = start + (end - start) * eased;
+            const v = end * eased;
             setDisplay(
                 (Number.isInteger(end) ? Math.round(v) : v.toFixed(2)) + suffix,
             );
