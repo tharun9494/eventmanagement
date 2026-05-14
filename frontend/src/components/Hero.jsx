@@ -65,6 +65,7 @@ export default function Hero() {
 
                     <h1
                         data-testid="hero-heading"
+                        aria-label="Experience Events Like Never Before"
                         className="font-display font-black tracking-tighter text-[#0B1221] mt-6 text-5xl sm:text-7xl lg:text-[5.6rem] xl:text-[6.4rem] leading-[0.95]"
                     >
                         <SplitReveal text="Experience Events" />
@@ -214,11 +215,11 @@ function StatPill({ k, v, highlight = false }) {
 function SplitReveal({ text }) {
     const words = text.split(" ");
     return (
-        <span className="block">
+        <span className="inline-flex flex-wrap justify-center gap-x-[0.18em]">
             {words.map((w, i) => (
                 <span
                     key={i}
-                    className="inline-block overflow-hidden align-bottom pr-[0.18em]"
+                    className="inline-block overflow-hidden align-bottom"
                 >
                     <motion.span
                         initial={{ y: "110%" }}
