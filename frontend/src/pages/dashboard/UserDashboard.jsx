@@ -121,56 +121,58 @@ export default function UserDashboard() {
             <Navbar />
             <div className="pt-28 pb-16 mx-auto max-w-7xl px-4 sm:px-6">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    {/* Sidebar */}
+                    {/* Sidebar / Mobile Nav */}
                     <aside
                         data-testid="user-sidebar"
-                        className="lg:col-span-3 glass-strong rounded-3xl p-4 h-fit lg:sticky lg:top-28 z-10"
+                        className="lg:col-span-3 lg:sticky lg:top-28 z-10"
                     >
-                        <div className="px-3 py-4 flex items-center gap-3">
-                            <div className="size-12 rounded-2xl bg-brand-gradient flex items-center justify-center shadow-md shrink-0">
-                                {user?.photoURL ? (
-                                    <img src={user.photoURL} alt="Avatar" className="size-full rounded-2xl object-cover" />
-                                ) : (
-                                    <User weight="fill" className="text-white size-6" />
-                                )}
-                            </div>
-                            <div className="min-w-0">
-                                <div className="font-display font-bold text-[#0B1221] truncate">
-                                    {user?.displayName || (user?.email ? user.email.split("@")[0] : "Eventra Member")}
+                        <div className="glass-strong rounded-3xl p-4 h-fit">
+                            <div className="px-3 py-2 lg:py-4 flex items-center gap-3">
+                                <div className="size-10 lg:size-12 rounded-2xl bg-brand-gradient flex items-center justify-center shadow-md shrink-0">
+                                    {user?.photoURL ? (
+                                        <img src={user.photoURL} alt="Avatar" className="size-full rounded-2xl object-cover" />
+                                    ) : (
+                                        <User weight="fill" className="text-white size-5 lg:size-6" />
+                                    )}
                                 </div>
-                                <div className="text-xs text-[#475569] truncate">
-                                    Premium Member
+                                <div className="min-w-0">
+                                    <div className="font-display font-bold text-sm lg:text-base text-[#0B1221] truncate">
+                                        {user?.displayName || (user?.email ? user.email.split("@")[0] : "Eventra Member")}
+                                    </div>
+                                    <div className="text-[10px] lg:text-xs text-[#475569] truncate">
+                                        Premium Member
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <nav className="mt-2 space-y-1">
-                            {sidebarItems.map((it) => (
+                            <nav className="mt-4 flex lg:flex-col overflow-x-auto lg:overflow-visible gap-2 lg:gap-1 pb-2 lg:pb-0 hide-scrollbar">
+                                {sidebarItems.map((it) => (
+                                    <button
+                                        key={it.id}
+                                        data-testid={`sidebar-${it.id}`}
+                                        onClick={() => setActive(it.id)}
+                                        className={`shrink-0 lg:w-full flex items-center gap-2 lg:gap-3 px-3 py-2 lg:py-2.5 rounded-xl text-xs lg:text-sm font-medium transition-all ${
+                                            active === it.id
+                                                ? "bg-[#0B1221] text-white shadow-md"
+                                                : "bg-[#F7F9FF] lg:bg-transparent text-[#475569] hover:bg-white hover:text-[#0B1221]"
+                                        }`}
+                                    >
+                                        <it.icon
+                                            weight={active === it.id ? "fill" : "duotone"}
+                                            className="size-4 lg:size-5 shrink-0"
+                                        />
+                                        <span className="whitespace-nowrap">{it.label}</span>
+                                    </button>
+                                ))}
                                 <button
-                                    key={it.id}
-                                    data-testid={`sidebar-${it.id}`}
-                                    onClick={() => setActive(it.id)}
-                                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                                        active === it.id
-                                            ? "bg-[#0B1221] text-white shadow-md"
-                                            : "text-[#475569] hover:bg-white hover:text-[#0B1221]"
-                                    }`}
+                                    onClick={handleSignOut}
+                                    className="shrink-0 lg:w-full flex items-center gap-2 lg:gap-3 px-3 py-2 lg:py-2.5 rounded-xl text-xs lg:text-sm font-medium bg-red-50 lg:bg-transparent text-red-600 lg:text-[#475569] lg:hover:bg-white lg:hover:text-[#0B1221] transition lg:mt-4"
+                                    data-testid="sidebar-signout"
                                 >
-                                    <it.icon
-                                        weight={active === it.id ? "fill" : "duotone"}
-                                        className="size-5 shrink-0"
-                                    />
-                                    {it.label}
+                                    <SignOut weight="duotone" className="size-4 lg:size-5 shrink-0" />
+                                    <span className="whitespace-nowrap">Sign out</span>
                                 </button>
-                            ))}
-                            <button
-                                onClick={handleSignOut}
-                                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#475569] hover:bg-white hover:text-[#0B1221] transition mt-4"
-                                data-testid="sidebar-signout"
-                            >
-                                <SignOut weight="duotone" className="size-5 shrink-0" />
-                                Sign out
-                            </button>
-                        </nav>
+                            </nav>
+                        </div>
                     </aside>
 
                     {/* Content */}

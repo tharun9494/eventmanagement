@@ -210,6 +210,29 @@ export default function Navbar() {
                                     </Comp>
                                 );
                             })}
+                            
+                            {/* Mobile User Actions */}
+                            <div className="mt-1 border-t border-[#EEF4FF] pt-1">
+                                {user ? (
+                                    <Link
+                                        to="/dashboard"
+                                        onClick={() => setOpen(false)}
+                                        className="block px-4 py-3 rounded-2xl text-sm font-semibold text-[#5B8CFF] hover:bg-[#F7F9FF]"
+                                    >
+                                        My Dashboard
+                                    </Link>
+                                ) : (
+                                    <button
+                                        onClick={() => {
+                                            setOpen(false);
+                                            setAuthOpen(true);
+                                        }}
+                                        className="w-full text-left px-4 py-3 rounded-2xl text-sm font-semibold text-[#5B8CFF] hover:bg-[#F7F9FF]"
+                                    >
+                                        Log in
+                                    </button>
+                                )}
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>

@@ -11,6 +11,8 @@ import {
     SignOut,
     Plus,
     MagnifyingGlass,
+    List,
+    X,
 } from "@phosphor-icons/react";
 import { auth, db } from "../../lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -36,6 +38,7 @@ const navItems = [
 export default function AdminDashboard() {
     const [active, setActive] = useState("overview");
     const [isLoading, setIsLoading] = useState(true);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [events, setEvents] = useState([]);
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
@@ -53,12 +56,10 @@ export default function AdminDashboard() {
 
     useEffect(() => {
         if (isLoading) return;
-        // Listen to all events
         const unsubEvents = onSnapshot(collection(db, "events"), (snap) => {
             setEvents(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
         });
-        
-        // Listen to all users
+
         const unsubUsers = onSnapshot(collection(db, "users"), (snap) => {
             setUsers(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
         });
@@ -92,7 +93,7 @@ export default function AdminDashboard() {
 
     return (
         <div className="min-h-screen bg-[#F7F9FF] flex">
-            {/* Dark sidebar */}
+            {/* Dark sidebar (Desktop) */}
             <aside
                 data-testid="admin-sidebar"
                 className="hidden lg:flex w-72 shrink-0 flex-col p-5 bg-[#0B1221] text-white sticky top-0 h-screen"
@@ -115,11 +116,10 @@ export default function AdminDashboard() {
                             key={it.id}
                             data-testid={`admin-nav-${it.id}`}
                             onClick={() => setActive(it.id)}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                                active === it.id
-                                    ? "bg-white/10 text-white"
-                                    : "text-white/60 hover:text-white hover:bg-white/5"
-                            }`}
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${active === it.id
+                                ? "bg-white/10 text-white"
+                                : "text-white/60 hover:text-white hover:bg-white/5"
+                                }`}
                         >
                             <it.icon
                                 weight={active === it.id ? "fill" : "duotone"}
@@ -152,12 +152,82 @@ export default function AdminDashboard() {
                 </button>
             </aside>
 
+            {/* Mobile Sidebar Overlay */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="fixed inset-0 bg-[#0B1221]/60 z-50 lg:hidden backdrop-blur-sm"
+                        />
+                        <motion.aside
+                            initial={{ x: "-100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "-100%" }}
+                            transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+                            className="fixed inset-y-0 left-0 w-72 bg-[#0B1221] text-white z-50 flex flex-col p-5 shadow-2xl lg:hidden"
+                        >
+                            <div className="flex items-center justify-between">
+                                <Link to="/" className="flex items-center gap-2 px-2 py-1">
+                                    <div className="size-9 rounded-xl bg-brand-gradient flex items-center justify-center">
+                                        <SquaresFour weight="fill" className="text-white size-5" />
+                                    </div>
+                                    <span className="font-display font-bold text-lg">
+                                        Lumen <span className="text-[#00C2FF]">·</span> Admin
+                                    </span>
+                                </Link>
+                                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 -mr-2 text-white/60 hover:text-white hover:bg-white/10 rounded-xl transition">
+                                    <X weight="bold" className="size-5" />
+                                </button>
+                            </div>
+                            <nav className="mt-8 space-y-1 flex-1 overflow-y-auto">
+                                {navItems.map((it) => (
+                                    <button
+                                        key={it.id}
+                                        onClick={() => {
+                                            setActive(it.id);
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${active === it.id
+                                            ? "bg-white/10 text-white"
+                                            : "text-white/60 hover:text-white hover:bg-white/5"
+                                            }`}
+                                    >
+                                        <it.icon
+                                            weight={active === it.id ? "fill" : "duotone"}
+                                            className="size-5"
+                                        />
+                                        {it.label}
+                                        {active === it.id && (
+                                            <span className="ml-auto size-1.5 rounded-full bg-[#00C2FF] shadow-[0_0_10px_#00C2FF]" />
+                                        )}
+                                    </button>
+                                ))}
+                            </nav>
+                            <button
+                                onClick={handleSignOut}
+                                className="mt-4 w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/60 hover:text-white hover:bg-white/5"
+                            >
+                                <SignOut weight="duotone" className="size-5" />
+                                Sign out
+                            </button>
+                        </motion.aside>
+                    </>
+                )}
+            </AnimatePresence>
+
             {/* Content */}
             <div className="flex-1 min-w-0">
                 {/* Topbar */}
                 <div className="sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b border-[#EEF4FF]">
                     <div className="px-4 sm:px-8 py-4 flex items-center gap-4">
-                        <div className="lg:hidden">
+                        <div className="lg:hidden flex items-center gap-3">
+                            <button onClick={() => setIsMobileMenuOpen(true)} className="p-1 -ml-1 text-[#0B1221]">
+                                <List weight="bold" className="size-6" />
+                            </button>
                             <Link
                                 to="/"
                                 className="font-display font-bold text-[#0B1221]"
@@ -165,7 +235,7 @@ export default function AdminDashboard() {
                                 Lumen Admin
                             </Link>
                         </div>
-                        <div className="relative flex-1 max-w-md">
+                        <div className="relative flex-1 max-w-md hidden sm:block">
                             <MagnifyingGlass
                                 weight="duotone"
                                 className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#475569]"
