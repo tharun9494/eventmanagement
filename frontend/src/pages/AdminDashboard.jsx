@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
     SquaresFour,
@@ -15,6 +15,8 @@ import {
     ArrowUpRight,
 } from "@phosphor-icons/react";
 import { upcomingEvents } from "../data/events";
+import { auth } from "../lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const navItems = [
     { id: "overview", icon: SquaresFour, label: "Overview" },
@@ -27,6 +29,24 @@ const navItems = [
 
 export default function AdminDashboard() {
     const [active, setActive] = useState("overview");
+    const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user || user.email !== "ontimittatharun2002@gmail.com") {
+                navigate("/");
+            } else {
+                setIsLoading(false);
+            }
+        });
+        return () => unsubscribe();
+    }, [navigate]);
+
+    if (isLoading) {
+        return <div className="min-h-screen bg-[#F7F9FF] flex items-center justify-center font-display font-bold text-[#0B1221]">Verifying access...</div>;
+    }
+
     return (
         <div className="min-h-screen bg-[#F7F9FF] flex">
             {/* Dark sidebar */}

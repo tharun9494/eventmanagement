@@ -15,13 +15,9 @@ export default function ExperienceSection() {
         <section
             id="experience"
             data-testid="experience-section"
-            className="relative py-24 sm:py-32 overflow-hidden"
+            className="relative py-24 sm:py-32 overflow-visible"
         >
-            {/* Light prismatic flow background */}
-            <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-[#F7F9FF] to-white" />
-            <FlowBackground />
-
-            <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
+            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 z-10">
                 {/* Header */}
                 <div className="grid lg:grid-cols-12 gap-8 items-end mb-12 sm:mb-16">
                     <div className="lg:col-span-7">
@@ -37,7 +33,7 @@ export default function ExperienceSection() {
                                 className="size-3.5 text-[#7B61FF]"
                             />
                             <span className="uppercase tracking-[0.2em] text-[10px]">
-                                The Lumen Experience
+                                The Eventra Experience
                             </span>
                         </motion.div>
                         <motion.h2
@@ -45,11 +41,11 @@ export default function ExperienceSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-80px" }}
                             transition={{ duration: 0.6, delay: 0.1 }}
-                            className="mt-4 font-display font-black tracking-tighter text-[#0B1221] text-4xl sm:text-5xl lg:text-6xl"
+                            className="mt-4 font-display font-bold tracking-tighter text-[#0B1221] text-4xl sm:text-5xl lg:text-6xl"
                         >
                             Built for the
-                            <span className="text-gradient"> next era</span> of
-                            events.
+                            <span className="text-gradient"> next era </span>
+                            of events.
                         </motion.h2>
                     </div>
                     <motion.p
@@ -59,8 +55,7 @@ export default function ExperienceSection() {
                         transition={{ duration: 0.6, delay: 0.15 }}
                         className="lg:col-span-5 text-[#475569] text-base sm:text-lg leading-relaxed"
                     >
-                        Cinematic design, real-time engagement, and effortless
-                        operations — engineered to feel premium on every device.
+                        Cinematic design, real-time engagement, and effortless operations — engineered to feel premium on every device.
                     </motion.p>
                 </div>
 
@@ -72,7 +67,7 @@ export default function ExperienceSection() {
                 </div>
 
                 {/* Feature bento grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
                     <FeatureCard
                         icon={<Rocket weight="duotone" className="size-6" />}
                         title="GPU-accelerated motion"
@@ -126,33 +121,7 @@ export default function ExperienceSection() {
     );
 }
 
-/* Lightweight flowing background — softer than hero, sits behind features */
-function FlowBackground() {
-    return (
-        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-            <div
-                className="absolute -top-32 left-1/4 size-[40vw] rounded-full opacity-50 blur-3xl"
-                style={{
-                    background:
-                        "radial-gradient(circle, #5B8CFF 0%, transparent 65%)",
-                    animation: "flowA 30s ease-in-out infinite",
-                }}
-            />
-            <div
-                className="absolute -bottom-32 right-1/4 size-[45vw] rounded-full opacity-40 blur-3xl"
-                style={{
-                    background:
-                        "radial-gradient(circle, #00C2FF 0%, transparent 65%)",
-                    animation: "flowB 36s ease-in-out infinite",
-                }}
-            />
-            <style>{`
-                @keyframes flowA { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(-10%,8%,0)} }
-                @keyframes flowB { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(12%,-6%,0)} }
-            `}</style>
-        </div>
-    );
-}
+
 
 function StatCard({ label, value, delay = 0 }) {
     return (
@@ -160,14 +129,15 @@ function StatCard({ label, value, delay = 0 }) {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.55, delay }}
+            whileHover={{ scale: 1.05, y: -5 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             data-testid={`stat-${label.toLowerCase().replace(/\s+/g, "-")}`}
-            className="group relative gradient-border p-6 rounded-2xl hover:-translate-y-1 transition-transform duration-500"
+            className="group relative p-5 sm:p-8 rounded-[2rem] bg-white/80 backdrop-blur-2xl border border-white/60 shadow-[0_15px_40px_-15px_rgba(91,140,255,0.15)] flex flex-col justify-center"
         >
             <div className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#5B8CFF]">
                 {label}
             </div>
-            <div className="mt-2 font-display font-black text-4xl sm:text-5xl tracking-tighter text-[#0B1221]">
+            <div className="mt-2 font-display font-bold text-[1.65rem] leading-none sm:text-4xl lg:text-5xl tracking-tighter text-[#0B1221] whitespace-nowrap">
                 <CountUp value={value} />
             </div>
             <div className="mt-3 h-px bg-gradient-to-r from-[#5B8CFF]/40 to-transparent" />
@@ -181,8 +151,9 @@ function FeatureCard({ icon, title, desc, gradient, delay = 0 }) {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.55, delay }}
-            className="group relative p-6 rounded-2xl bg-white/80 backdrop-blur-xl border border-[#EEF4FF] hover:border-transparent hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_24px_60px_-20px_rgba(91,140,255,0.35)]"
+            whileHover={{ scale: 1.03, y: -5 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="group relative p-5 sm:p-8 rounded-[2rem] bg-white/80 backdrop-blur-2xl border border-white/60 shadow-[0_15px_40px_-15px_rgba(91,140,255,0.15)] overflow-hidden"
         >
             <div
                 className={`size-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white shadow-[0_8px_24px_-8px_rgba(91,140,255,0.6)]`}

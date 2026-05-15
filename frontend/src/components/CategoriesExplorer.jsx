@@ -17,7 +17,7 @@ export default function CategoriesExplorer() {
         <section
             id="categories"
             data-testid="categories-section"
-            className="relative py-24 sm:py-28"
+            className="relative py-24 sm:py-32 overflow-visible"
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
                 <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
@@ -36,7 +36,7 @@ export default function CategoriesExplorer() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-80px" }}
                             transition={{ duration: 0.6, delay: 0.1 }}
-                            className="mt-2 font-display font-black tracking-tighter text-[#0B1221] text-3xl sm:text-4xl lg:text-5xl"
+                            className="mt-2 font-display font-bold tracking-tighter text-[#0B1221] text-3xl sm:text-4xl lg:text-5xl"
                         >
                             Find your next
                             <span className="text-gradient"> obsession.</span>
@@ -66,12 +66,9 @@ export default function CategoriesExplorer() {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-60px" }}
-                                transition={{
-                                    duration: 0.5,
-                                    delay: i * 0.05,
-                                    ease: [0.22, 1, 0.36, 1],
-                                }}
-                                className="group relative aspect-square rounded-2xl p-5 bg-white border border-[#EEF4FF] hover:border-transparent hover:-translate-y-1 hover:shadow-[0_24px_60px_-20px_rgba(91,140,255,0.35)] transition-all duration-500 flex flex-col justify-between overflow-hidden"
+                                whileHover={{ scale: 1.05, y: -5 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                className="group relative aspect-square rounded-[2rem] p-4 sm:p-6 bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_15px_40px_-15px_rgba(91,140,255,0.15)] overflow-hidden flex flex-col justify-between"
                             >
                                 <div
                                     className={`size-12 rounded-xl bg-gradient-to-br ${c.hue} flex items-center justify-center text-white shadow-[0_8px_24px_-8px_rgba(91,140,255,0.6)]`}

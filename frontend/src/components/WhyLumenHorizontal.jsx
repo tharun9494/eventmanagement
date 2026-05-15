@@ -68,8 +68,8 @@ export default function WhyLumenHorizontal() {
     return (
         <section
             ref={ref}
-            data-testid="why-lumen"
-            className="relative bg-[#0B1221] text-white"
+            data-testid="why-eventra"
+            className="relative"
             style={{ height: "420vh" }}
         >
             <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
@@ -80,14 +80,14 @@ export default function WhyLumenHorizontal() {
                 >
                     <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
                         <div>
-                            <div className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#00C2FF]">
-                                Why teams pick Lumen
+                            <div className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#5B8CFF]">
+                                Why teams pick Eventra
                             </div>
-                            <h2 className="mt-3 font-display font-black tracking-tighter text-4xl sm:text-5xl lg:text-6xl leading-[0.95]">
+                            <h2 className="mt-3 font-display font-bold tracking-tighter text-[#0B1221] text-4xl sm:text-5xl lg:text-6xl leading-[0.95]">
                                 Six reasons we feel
                                 <br />
                                 <span
-                                    className="bg-clip-text text-transparent"
+                                    className="bg-clip-text text-transparent pb-2"
                                     style={{
                                         backgroundImage:
                                             "linear-gradient(135deg,#5B8CFF,#7B61FF,#00C2FF)",
@@ -97,28 +97,14 @@ export default function WhyLumenHorizontal() {
                                 </span>
                             </h2>
                         </div>
-                        <div className="hidden lg:flex items-center gap-3 text-xs text-white/50">
+                        <div className="hidden lg:flex items-center gap-3 text-sm font-bold text-[#475569]">
                             <span>Scroll to explore</span>
-                            <span className="size-1 rounded-full bg-[#00C2FF] animate-pulse" />
+                            <span className="size-2 rounded-full bg-[#00C2FF] animate-pulse" />
                         </div>
                     </div>
                 </motion.div>
 
-                {/* Background orbs */}
-                <div className="absolute -top-32 -right-32 size-[40vw] rounded-full bg-[#7B61FF]/30 blur-3xl pointer-events-none" />
-                <div className="absolute -bottom-32 -left-32 size-[40vw] rounded-full bg-[#00C2FF]/25 blur-3xl pointer-events-none" />
-                <div
-                    className="absolute inset-0 opacity-20 pointer-events-none"
-                    style={{
-                        backgroundImage:
-                            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
-                        backgroundSize: "56px 56px",
-                        WebkitMaskImage:
-                            "radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 80%)",
-                        maskImage:
-                            "radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 80%)",
-                    }}
-                />
+
 
                 {/* Horizontal scroll track */}
                 <div className="flex-1 flex items-center overflow-hidden">
@@ -135,10 +121,10 @@ export default function WhyLumenHorizontal() {
                 {/* Bottom progress bar */}
                 <div className="relative z-10 px-4 sm:px-10 pb-8">
                     <div className="max-w-7xl mx-auto flex items-center gap-4">
-                        <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/40 font-mono">
+                        <div className="text-[12px] uppercase tracking-[0.25em] font-bold text-[#475569] font-mono">
                             01 / 06
                         </div>
-                        <div className="flex-1 h-[2px] rounded-full bg-white/10 overflow-hidden">
+                        <div className="flex-1 h-[3px] rounded-full bg-[#EEF4FF] overflow-hidden shadow-inner">
                             <motion.div
                                 style={{
                                     scaleX: progressScale,
@@ -147,7 +133,7 @@ export default function WhyLumenHorizontal() {
                                 className="h-full bg-gradient-to-r from-[#5B8CFF] via-[#7B61FF] to-[#00C2FF]"
                             />
                         </div>
-                        <div className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/40 font-mono">
+                        <div className="text-[12px] uppercase tracking-[0.25em] font-bold text-[#475569] font-mono">
                             06 / 06
                         </div>
                     </div>
@@ -159,9 +145,11 @@ export default function WhyLumenHorizontal() {
 
 function Panel({ panel, index }) {
     return (
-        <div
+        <motion.div
+            whileHover={{ scale: 1.02, rotate: 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             data-testid={`why-panel-${panel.n}`}
-            className="relative shrink-0 w-[88vw] sm:w-[60vw] lg:w-[40vw] xl:w-[32vw] aspect-[5/6] sm:aspect-[4/5] rounded-[2rem] p-7 sm:p-10 overflow-hidden bg-white/[0.04] backdrop-blur-xl border border-white/10 flex flex-col justify-between"
+            className="relative shrink-0 w-[88vw] sm:w-[60vw] lg:w-[40vw] xl:w-[32vw] aspect-[5/6] sm:aspect-[4/5] rounded-[2.5rem] p-8 sm:p-12 overflow-hidden bg-white/80 backdrop-blur-2xl border border-white/60 shadow-[0_20px_50px_-15px_rgba(91,140,255,0.2)] flex flex-col justify-between"
         >
             {/* Gradient halo */}
             <div
@@ -173,18 +161,18 @@ function Panel({ panel, index }) {
                 >
                     <panel.icon weight="duotone" className="size-7" />
                 </div>
-                <div className="font-display font-black text-6xl sm:text-7xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white/30 to-white/5">
+                <div className="font-display font-bold text-6xl sm:text-7xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-[#0B1221]/10 to-transparent">
                     {panel.n}
                 </div>
             </div>
             <div className="relative">
-                <h3 className="font-display font-black text-3xl sm:text-4xl tracking-tighter leading-[1]">
+                <h3 className="font-display font-bold text-3xl sm:text-4xl text-[#0B1221] tracking-tighter leading-[1]">
                     {panel.title}
                 </h3>
-                <p className="mt-4 text-white/65 text-sm sm:text-base leading-relaxed max-w-[36ch]">
+                <p className="mt-4 text-[#475569] text-sm sm:text-base font-medium leading-relaxed max-w-[36ch]">
                     {panel.desc}
                 </p>
             </div>
-        </div>
+        </motion.div>
     );
 }

@@ -21,14 +21,14 @@ export default function MarqueeTape() {
     return (
         <section
             data-testid="marquee-tape"
-            className="relative py-10 sm:py-14 overflow-hidden bg-[#0B1221] text-white"
+            className="relative py-10 sm:py-14 overflow-hidden bg-white/40 backdrop-blur-lg border-y border-white/60 shadow-[0_10px_40px_-10px_rgba(91,140,255,0.1)]"
         >
-            <div className="absolute inset-0 opacity-25">
+            <div className="absolute inset-0 opacity-[0.03]">
                 <div
                     className="size-full"
                     style={{
                         backgroundImage:
-                            "linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+                            "linear-gradient(90deg, #0B1221 1px, transparent 1px)",
                         backgroundSize: "12% 100%",
                     }}
                 />
@@ -40,7 +40,7 @@ export default function MarqueeTape() {
             </Row>
 
             {/* Divider line */}
-            <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+            <div className="my-4 h-px w-full bg-gradient-to-r from-transparent via-[#5B8CFF]/20 to-transparent" />
 
             {/* Row 2 — small, right */}
             <Row direction="right" duration={42}>
@@ -50,7 +50,7 @@ export default function MarqueeTape() {
                     "VANTA",
                     "ORBIT",
                     "PRISM",
-                    "LUMEN",
+                    "EVENTRA",
                     "HALO",
                     "ZENITH",
                     "PULSE",
@@ -82,7 +82,7 @@ function Row({ children, direction = "left", duration = 30, large = false }) {
                                 large
                                     ? "text-4xl sm:text-6xl lg:text-7xl"
                                     : "text-xl sm:text-2xl"
-                            } text-white/70 hover:text-white transition-colors`}
+                            } text-[#0B1221]/20 hover:text-[#0B1221] transition-colors duration-500`}
                         >
                             {it}
                         </span>
@@ -90,7 +90,7 @@ function Row({ children, direction = "left", duration = 30, large = false }) {
                             weight="fill"
                             className={`${
                                 large ? "size-7 sm:size-9" : "size-4 sm:size-5"
-                            } text-[#00C2FF] shrink-0`}
+                            } text-[#7B61FF]/60 shrink-0`}
                         />
                     </div>
                 ))}

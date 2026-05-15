@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import GlobalBackground from "../components/GlobalBackground";
 import Hero from "../components/Hero";
 import BrandsMarquee from "../components/BrandsMarquee";
 import LiveCounters from "../components/LiveCounters";
@@ -7,7 +8,7 @@ import FeaturedEventHero from "../components/FeaturedEventHero";
 import ExperienceSection from "../components/ExperienceSection";
 import UpcomingEvents from "../components/UpcomingEvents";
 import HowItWorks from "../components/HowItWorks";
-import WhyLumenHorizontal from "../components/WhyLumenHorizontal";
+
 import LiveActivity from "../components/LiveActivity";
 import GlobalCities from "../components/GlobalCities";
 import PastEventsGallery from "../components/PastEventsGallery";
@@ -21,6 +22,7 @@ import StickyCtaBar from "../components/StickyCtaBar";
 export default function Landing() {
     return (
         <div data-testid="landing-page" className="relative">
+            <GlobalBackground />
             <Navbar />
             <main className="relative">
                 <Hero />
@@ -28,7 +30,6 @@ export default function Landing() {
                 <LiveCounters />
                 <CategoriesExplorer />
                 <FeaturedEventHero />
-                <WhyLumenHorizontal />
                 <ExperienceSection />
                 <UpcomingEvents />
                 <HowItWorks />

@@ -2,7 +2,6 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import ScrollProgressBar from "./components/ScrollProgressBar";
-import MagneticCursor from "./components/MagneticCursor";
 
 const Landing = lazy(() => import("./pages/Landing"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard"));
@@ -21,7 +20,6 @@ function App() {
         <div className="App font-body">
             <BrowserRouter>
                 <ScrollProgressBar />
-                <MagneticCursor />
                 <Suspense fallback={<PageLoader />}>
                     <Routes>
                         <Route path="/" element={<Landing />} />

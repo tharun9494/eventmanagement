@@ -42,7 +42,7 @@ export default function HowItWorks() {
                     </h2>
                 </div>
 
-                <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="relative grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
                     {/* Connector line (desktop) */}
                     <div
                         className="hidden md:block absolute top-12 left-[16%] right-[16%] h-px"

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
     House,
@@ -17,6 +17,8 @@ import {
 } from "@phosphor-icons/react";
 import Navbar from "../components/Navbar";
 import { upcomingEvents } from "../data/events";
+import { auth } from "../lib/firebase";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 
 const sidebarItems = [
     { id: "overview", icon: House, label: "Overview" },
@@ -29,6 +31,29 @@ const sidebarItems = [
 
 export default function UserDashboard() {
     const [active, setActive] = useState("overview");
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser) {
+                setUser(currentUser);
+            } else {
+                navigate("/");
+            }
+        });
+        return () => unsubscribe();
+    }, [navigate]);
+
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            navigate("/");
+        } catch (error) {
+            console.error("Error signing out:", error);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-[#F7F9FF]">
             <Navbar />
@@ -48,7 +73,7 @@ export default function UserDashboard() {
                             </div>
                             <div>
                                 <div className="font-display font-bold text-[#0B1221]">
-                                    Avery Quinn
+                                    {user?.displayName || (user?.email ? user.email.split("@")[0] : "Eventra Member")}
                                 </div>
                                 <div className="text-xs text-[#475569]">
                                     Premium Member
@@ -78,14 +103,14 @@ export default function UserDashboard() {
                                     {it.label}
                                 </button>
                             ))}
-                            <Link
-                                to="/"
+                            <button
+                                onClick={handleSignOut}
                                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#475569] hover:bg-white hover:text-[#0B1221] transition mt-4"
                                 data-testid="sidebar-signout"
                             >
                                 <SignOut weight="duotone" className="size-5" />
                                 Sign out
-                            </Link>
+                            </button>
                         </nav>
                     </aside>
 
@@ -103,7 +128,7 @@ export default function UserDashboard() {
                                     Welcome back
                                 </div>
                                 <h1 className="font-display font-black text-3xl sm:text-4xl tracking-tighter text-[#0B1221] mt-1">
-                                    Hi, Avery 👋
+                                    Hi, {user?.displayName?.split(" ")[0] || (user?.email ? user.email.split("@")[0] : "There")} 👋
                                 </h1>
                             </div>
                             <div className="relative">

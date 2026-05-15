@@ -16,7 +16,7 @@ export default function LiveCounters() {
         <section
             ref={ref}
             data-testid="live-counters"
-            className="relative py-20 sm:py-24 bg-gradient-to-b from-white via-[#F7F9FF] to-white"
+            className="relative py-24 sm:py-32 overflow-visible"
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
                 <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
@@ -24,7 +24,7 @@ export default function LiveCounters() {
                         <div className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#5B8CFF]">
                             Live · Network Pulse
                         </div>
-                        <h2 className="mt-3 font-display font-black tracking-tighter text-[#0B1221] text-4xl sm:text-5xl lg:text-6xl">
+                        <h2 className="mt-2 font-display font-bold tracking-tighter text-[#0B1221] text-3xl sm:text-4xl lg:text-5xl">
                             The numbers
                             <span className="text-gradient"> never sleep.</span>
                         </h2>
@@ -42,9 +42,10 @@ export default function LiveCounters() {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-80px" }}
-                            transition={{ duration: 0.5, delay: i * 0.07 }}
+                            whileHover={{ scale: 1.05, y: -5 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             data-testid={`counter-${i}`}
-                            className="relative group rounded-3xl bg-white border border-[#EEF4FF] p-6 hover:-translate-y-1 hover:border-transparent hover:shadow-[0_24px_60px_-20px_rgba(91,140,255,0.35)] transition-all duration-500 overflow-hidden"
+                            className="relative group rounded-[2rem] bg-white/70 backdrop-blur-2xl border border-white/60 p-5 sm:p-8 shadow-[0_15px_40px_-15px_rgba(91,140,255,0.15)] overflow-hidden flex flex-col justify-between"
                         >
                             <div
                                 className={`absolute -top-12 -right-12 size-40 rounded-full bg-gradient-to-br ${it.hue} opacity-10 blur-2xl group-hover:opacity-30 transition-opacity duration-500`}
@@ -102,7 +103,7 @@ function RollingNumber({ end, play, decimals = 0 }) {
             : Math.round(val).toLocaleString();
 
     return (
-        <div className="relative mt-5 font-display font-black text-4xl sm:text-5xl tracking-tighter text-[#0B1221] tabular-nums">
+        <div className="relative mt-4 sm:mt-5 font-display font-bold text-[1.65rem] leading-none sm:text-4xl lg:text-5xl tracking-tighter text-[#0B1221] tabular-nums whitespace-nowrap">
             {text}
         </div>
     );

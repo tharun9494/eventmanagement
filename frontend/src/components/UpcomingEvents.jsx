@@ -13,7 +13,7 @@ export default function UpcomingEvents() {
         <section
             id="upcoming"
             data-testid="upcoming-events"
-            className="relative py-24 sm:py-32"
+            className="relative py-24 sm:py-32 overflow-visible"
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
                 <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
@@ -32,7 +32,7 @@ export default function UpcomingEvents() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-80px" }}
                             transition={{ duration: 0.7, delay: 0.1 }}
-                            className="font-display font-black tracking-tighter text-[#0B1221] text-4xl sm:text-5xl lg:text-6xl mt-3"
+                            className="font-display font-bold tracking-tighter text-[#0B1221] text-3xl sm:text-4xl lg:text-5xl mt-3"
                         >
                             Experiences worth
                             <br className="hidden sm:block" />
@@ -45,7 +45,7 @@ export default function UpcomingEvents() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-80px" }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="group inline-flex items-center gap-2 self-start sm:self-end px-5 py-3 rounded-2xl bg-white border border-[#EEF4FF] hover:border-[#5B8CFF]/40 transition-all font-semibold text-sm text-[#0B1221]"
+                        className="group inline-flex items-center gap-2 self-start sm:self-end px-5 py-3 rounded-2xl bg-white/70 backdrop-blur-md border border-white/80 hover:border-[#5B8CFF]/40 hover:bg-white transition-all font-semibold text-sm text-[#0B1221] shadow-sm"
                         data-testid="upcoming-view-all"
                     >
                         View all events
@@ -56,7 +56,7 @@ export default function UpcomingEvents() {
                     </motion.a>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                     {upcomingEvents.map((event, i) => (
                         <EventCard key={event.id} event={event} delay={i * 0.08} />
                     ))}
@@ -107,8 +107,8 @@ function EventCard({ event, delay = 0 }) {
             className="group relative"
         >
             <div
-                className={`relative rounded-3xl overflow-hidden bg-white border border-[#EEF4FF] hover:border-transparent transition-all duration-500 will-change-transform hover:-translate-y-1 ${
-                    event.featured ? "shadow-[0_20px_60px_-20px_rgba(91,140,255,0.4)]" : "shadow-sm"
+                className={`relative rounded-3xl overflow-hidden bg-white/70 backdrop-blur-2xl border border-white/60 hover:border-white/80 transition-all duration-500 will-change-transform ${
+                    event.featured ? "shadow-[0_20px_50px_-20px_rgba(91,140,255,0.4)]" : "shadow-[0_15px_40px_-15px_rgba(91,140,255,0.15)]"
                 }`}
             >
                 {/* Animated gradient border for featured */}
