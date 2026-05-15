@@ -43,14 +43,17 @@ body {
     width: 10px;
     height: 10px;
 }
+
 ::-webkit-scrollbar-track {
     background: #f7f9ff;
 }
+
 ::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #5b8cff, #7b61ff);
     border-radius: 10px;
     border: 2px solid #f7f9ff;
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, #7b61ff, #00c2ff);
 }
@@ -91,6 +94,7 @@ body {
     font-family: "Cabinet Grotesk", sans-serif;
     letter-spacing: -0.03em;
 }
+
 .font-body {
     font-family: "Outfit", sans-serif;
 }
@@ -103,6 +107,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.5);
     box-shadow: 0 8px 32px rgba(91, 140, 255, 0.08);
 }
+
 .glass-strong {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(24px) saturate(180%);
@@ -123,6 +128,7 @@ body {
 .glow-blue {
     box-shadow: 0 0 0 1px rgba(91, 140, 255, 0.15), 0 12px 40px -8px rgba(91, 140, 255, 0.25);
 }
+
 .glow-cyan {
     box-shadow: 0 0 0 1px rgba(0, 194, 255, 0.2), 0 16px 48px -8px rgba(0, 194, 255, 0.35);
 }
@@ -133,6 +139,7 @@ body {
     background: white;
     border-radius: 1rem;
 }
+
 .gradient-border::before {
     content: "";
     position: absolute;
@@ -156,6 +163,7 @@ body {
     z-index: 0;
     pointer-events: none;
 }
+
 .aurora::before,
 .aurora::after {
     content: "";
@@ -167,12 +175,14 @@ body {
     opacity: 0.45;
     will-change: transform;
 }
+
 .aurora::before {
     background: radial-gradient(circle, #5b8cff 0%, transparent 60%);
     top: -20%;
     left: -10%;
     animation: floatA 18s ease-in-out infinite;
 }
+
 .aurora::after {
     background: radial-gradient(circle, #00c2ff 0%, transparent 60%);
     bottom: -25%;
@@ -181,19 +191,24 @@ body {
 }
 
 @keyframes floatA {
+
     0%,
     100% {
         transform: translate(0, 0) scale(1);
     }
+
     50% {
         transform: translate(4%, 6%) scale(1.08);
     }
 }
+
 @keyframes floatB {
+
     0%,
     100% {
         transform: translate(0, 0) scale(1);
     }
+
     50% {
         transform: translate(-5%, -4%) scale(1.1);
     }
@@ -214,10 +229,12 @@ body {
     from {
         transform: translateX(0);
     }
+
     to {
         transform: translateX(-50%);
     }
 }
+
 .marquee {
     animation: marquee 30s linear infinite;
     will-change: transform;
@@ -225,14 +242,17 @@ body {
 
 /* Soft floating */
 @keyframes floatY {
+
     0%,
     100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-8px);
     }
 }
+
 .float-y {
     animation: floatY 6s ease-in-out infinite;
 }
@@ -242,23 +262,24 @@ body {
     0% {
         background-position: -200% 0;
     }
+
     100% {
         background-position: 200% 0;
     }
 }
+
 .shimmer {
-    background: linear-gradient(
-        110deg,
-        rgba(91, 140, 255, 0) 30%,
-        rgba(91, 140, 255, 0.15) 50%,
-        rgba(91, 140, 255, 0) 70%
-    );
+    background: linear-gradient(110deg,
+            rgba(91, 140, 255, 0) 30%,
+            rgba(91, 140, 255, 0.15) 50%,
+            rgba(91, 140, 255, 0) 70%);
     background-size: 200% 100%;
     animation: shimmer 2.4s linear infinite;
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -270,21 +291,22 @@ body {
 
 /* Mobile perf optimizations */
 @media (max-width: 768px) {
-    .aurora::before,
-    .aurora::after {
-        filter: blur(60px);
-        opacity: 0.35;
+    .aurora {
+        display: none !important; /* Hide giant blurs entirely on mobile */
     }
-    
-    /* Hardware accelerate and reduce heavy blurs for Android devices */
+
+    /* Completely remove expensive backdrop-filters on mobile to fix Android lag */
     .glass {
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(255, 255, 255, 0.95) !important;
         transform: translateZ(0);
     }
+
     .glass-strong {
-        backdrop-filter: blur(16px) saturate(150%);
-        -webkit-backdrop-filter: blur(16px) saturate(150%);
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(255, 255, 255, 0.98) !important;
         transform: translateZ(0);
     }
 }
