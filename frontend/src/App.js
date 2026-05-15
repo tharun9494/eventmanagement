@@ -4,8 +4,8 @@ import { lazy, Suspense } from "react";
 import ScrollProgressBar from "./components/ScrollProgressBar";
 
 const Landing = lazy(() => import("./pages/Landing"));
-const UserDashboard = lazy(() => import("./pages/UserDashboard"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const UserDashboard = lazy(() => import("./pages/dashboard/UserDashboard"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 
 function PageLoader() {
     return (

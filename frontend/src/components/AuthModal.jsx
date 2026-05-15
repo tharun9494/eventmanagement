@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, GoogleLogo, EnvelopeSimple, LockKey } from "@phosphor-icons/react";
-import { auth, googleProvider } from "../lib/firebase";
+import { auth, googleProvider, db } from "../lib/firebase";
 import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 export default function AuthModal({ isOpen, onClose }) {
     const [isLogin, setIsLogin] = useState(true);
@@ -11,11 +12,31 @@ export default function AuthModal({ isOpen, onClose }) {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const saveUserToFirestore = async (user) => {
+        if (!user) return;
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        
+        if (!userSnap.exists()) {
+            await setDoc(userRef, {
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName || user.email.split('@')[0],
+                photoURL: user.photoURL || "",
+                createdAt: new Date().toISOString(),
+                tier: "Gold Tier Member",
+                location: "",
+                phone: "",
+            });
+        }
+    };
+
     const handleGoogleSignIn = async () => {
         try {
             setLoading(true);
             setError("");
-            await signInWithPopup(auth, googleProvider);
+            const result = await signInWithPopup(auth, googleProvider);
+            await saveUserToFirestore(result.user);
             onClose(); // Close modal on success
         } catch (err) {
             setError("Failed to sign in with Google.");
@@ -35,11 +56,13 @@ export default function AuthModal({ isOpen, onClose }) {
         try {
             setLoading(true);
             setError("");
+            let result;
             if (isLogin) {
-                await signInWithEmailAndPassword(auth, email, password);
+                result = await signInWithEmailAndPassword(auth, email, password);
             } else {
-                await createUserWithEmailAndPassword(auth, email, password);
+                result = await createUserWithEmailAndPassword(auth, email, password);
             }
+            await saveUserToFirestore(result.user);
             onClose(); // Close modal on success
         } catch (err) {
             setError(err.message || "Authentication failed. Please try again.");
